@@ -95,7 +95,7 @@ router.post("/register", async (req, res) => {
 
 router.get("/words/len", async (req, res) => {
   const userId = req.query.id;
-
+ 
   if (!userId) {
     return res.status(400).json({
       message: "Please provide user id",
@@ -106,12 +106,10 @@ router.get("/words/len", async (req, res) => {
   const wordsLength = await Word.countDocuments({
     userId: userId,
   });
-
-  const length = wordsLength.length;
-  console.log(length);
+ 
   return res.status(200).json({
     message: "Total number of words",
-    totalLength: length,
+    totalLength: wordsLength,
   });
 });
 
@@ -134,6 +132,8 @@ router.get("/words/recent", async (req, res) => {
       userId: userId,
       createdAt: { $gte: startOfDay, $lte: endOfDay },
     });
+
+
 
     return res.status(200).json({
       message: "Recent words",
@@ -198,7 +198,7 @@ router.get("/words/streak", async (req, res) => {
     return res.status(200).json({
       message: "Current active streak",
       status: "success",
-      streak,
+      streak:streak+1,
     });
   } catch (error) {
     console.error("Error calculating streak:", error);
@@ -221,10 +221,13 @@ router.get("/words/random", async (req, res) => {
     }
 
     const randomWordResult = await Word.aggregate([{ $sample: { size: 1 } }]);
+    
+    const receivedText = await askGemini(randomWordResult[0].word);
 
     return res.status(200).json({
       message: "random word",
-      word: randomWordResult,
+      word: randomWordResult[0].word,
+      receivedText,
     });
   } catch (error) {
     console.error("Error fetching random word:", error);

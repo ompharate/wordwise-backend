@@ -9,7 +9,8 @@ export async function geminiController(req, res) {
       status: "error",
     });
   }
-  const receivedTex = askGemini(word);
+  const receivedTex = await askGemini(word);
+  console.log(receivedTex)
   return res.json(receivedTex);
 }
 
