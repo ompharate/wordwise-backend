@@ -268,7 +268,7 @@ router.get("/word/info", async (req, res) => {
   try {
     const { userId, word } = req.query;
 
-    if (!userId) {
+    if (!word) {
       return res.status(400).json({
         message: "Please provide a user ID",
         status: "error",
