@@ -10,7 +10,12 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+const corsOptions = {
+  origin: ["https://wordwise.ompharate.tech", "http://localhost:3000"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 connectToDB();
 
 export const genAI = new GoogleGenerativeAI(
