@@ -11,9 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: ["*"],
-  // origin: ["https://wordwise.ompharate.tech", "http://localhost:3000"],
-  credentials: true,
+  origin: "*",
+  credentials: false,
 };
 
 app.use(cors(corsOptions));
