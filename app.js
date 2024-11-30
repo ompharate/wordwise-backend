@@ -13,9 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 connectToDB();
 
-export const genAI = new GoogleGenerativeAI(process.env.NEXT_GEMINI_API_KEY || "");
+export const genAI = new GoogleGenerativeAI(
+  process.env.NEXT_GEMINI_API_KEY || ""
+);
 export const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
 
 app.get("/", (req, res) => {
   console.log("GET request received");
@@ -32,3 +33,4 @@ app.listen(4000, () => {
   console.log("Server is running on port 4000");
 });
 
+export default app;
